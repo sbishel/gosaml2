@@ -115,3 +115,28 @@ func TestRequestedAuthnContextIncluded(t *testing.T) {
 	require.Equal(t, el.Tag, "AuthnContextClassRef")
 	require.Equal(t, el.Text(), AuthnContextPasswordProtectedTransport)
 }
+
+func TestScopingIDProviderIncluded(t *testing.T) {
+	spURL := "https://sp.test"
+	sp := SAMLServiceProvider{
+		AssertionConsumerServiceURL: spURL,
+		AudienceURI:                 spURL,
+		IdentityProviderIssuer:      spURL,
+		IdentityProviderSSOURL:      "https://idp.test/saml/sso",
+		SignAuthnRequests:           false,
+		ScopingIDPProviderId:        "providerID",
+		ScopingIDPProviderName:      "providerName",
+	}
+
+	request, err := sp.BuildAuthRequest()
+	require.NoError(t, err)
+
+	doc := etree.NewDocument()
+	err = doc.ReadFromString(request)
+	require.NoError(t, err)
+
+	idpEntry := doc.FindElement("./AuthnRequest/Scoping/IDPList/IDPEntry")
+
+	require.Equal(t, idpEntry.SelectAttrValue("ProviderID", ""), "providerID")
+	require.Equal(t, idpEntry.SelectAttrValue("Name", ""), "providerName")
+}

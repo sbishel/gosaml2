@@ -9,7 +9,7 @@ import (
 	"net/url"
 
 	"github.com/beevik/etree"
-	"github.com/russellhaering/gosaml2/uuid"
+	"github.com/mattermost/gosaml2/uuid"
 )
 
 const issueInstantFormat = "2006-01-02T15:04:05Z"
@@ -53,6 +53,14 @@ func (sp *SAMLServiceProvider) buildAuthnRequest(includeSig bool) (*etree.Docume
 			authnContextClassRef := requestedAuthnContext.CreateElement("saml:AuthnContextClassRef")
 			authnContextClassRef.SetText(context)
 		}
+	}
+
+	if sp.ScopingIDPProviderId != "" && sp.ScopingIDPProviderName != "" {
+		scoping := authnRequest.CreateElement("samlp:Scoping")
+		idpList := scoping.CreateElement("samlp:IDPList")
+		idpEntry := idpList.CreateElement("samlp:IDPEntry")
+		idpEntry.CreateAttr("ProviderID", sp.ScopingIDPProviderId)
+		idpEntry.CreateAttr("Name", sp.ScopingIDPProviderName)
 	}
 
 	doc := etree.NewDocument()
