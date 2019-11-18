@@ -140,3 +140,38 @@ func TestScopingIDProviderIncluded(t *testing.T) {
 	require.Equal(t, idpEntry.SelectAttrValue("ProviderID", ""), "providerID")
 	require.Equal(t, idpEntry.SelectAttrValue("Name", ""), "providerName")
 }
+
+func TestScopingIDProviderOmitted(t *testing.T) {
+	spURL := "https://sp.test"
+
+	cases := []struct {
+		ScopingIDPProviderId   string
+		ScopingIDPProviderName string
+	}{
+		{"", ""},
+		{"", "providerName"},
+		{"providerId", ""},
+	}
+
+	for _, tc := range cases {
+		sp := SAMLServiceProvider{
+			AssertionConsumerServiceURL: spURL,
+			AudienceURI:                 spURL,
+			IdentityProviderIssuer:      spURL,
+			IdentityProviderSSOURL:      "https://idp.test/saml/sso",
+			SignAuthnRequests:           false,
+			ScopingIDPProviderId:        tc.ScopingIDPProviderId,
+			ScopingIDPProviderName:      tc.ScopingIDPProviderName,
+		}
+
+		request, err := sp.BuildAuthRequest()
+		require.NoError(t, err)
+
+		doc := etree.NewDocument()
+		err = doc.ReadFromString(request)
+		require.NoError(t, err)
+
+		el := doc.FindElement("./AuthnRequest/Scoping")
+		require.Nil(t, el)
+	}
+}
