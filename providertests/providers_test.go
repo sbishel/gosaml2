@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/jonboulle/clockwork"
-	"github.com/russellhaering/gosaml2"
-	"github.com/russellhaering/goxmldsig"
+	saml2 "github.com/mattermost/gosaml2"
+	dsig "github.com/russellhaering/goxmldsig"
 )
 
 func TestValidateResponses(t *testing.T) {
@@ -94,7 +94,7 @@ func TestValidateResponses(t *testing.T) {
 				AudienceURI:                 "{audience}",
 				SkipSignatureValidation:     false,
 				AllowMissingAttributes:      true,
-				Clock: dsig.NewFakeClock(clockwork.NewFakeClockAt(time.Date(2017, 3, 8, 7, 51, 0, 0, time.UTC))),
+				Clock:                       dsig.NewFakeClock(clockwork.NewFakeClockAt(time.Date(2017, 3, 8, 7, 51, 0, 0, time.UTC))),
 			},
 		},
 		{
@@ -108,7 +108,7 @@ func TestValidateResponses(t *testing.T) {
 				AudienceURI:                 "JSAuth",
 				SkipSignatureValidation:     false,
 				AllowMissingAttributes:      true,
-				Clock: dsig.NewFakeClock(clockwork.NewFakeClockAt(time.Date(2016, 12, 12, 16, 55, 0, 0, time.UTC))),
+				Clock:                       dsig.NewFakeClock(clockwork.NewFakeClockAt(time.Date(2016, 12, 12, 16, 55, 0, 0, time.UTC))),
 			},
 		},
 	}
