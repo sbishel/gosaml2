@@ -10,9 +10,9 @@ import (
 	"encoding/base64"
 	"encoding/xml"
 
-	saml2 "github.com/mattermost/gosaml2"
-	"github.com/mattermost/gosaml2/types"
 	dsig "github.com/russellhaering/goxmldsig"
+	saml2 "github.com/sbishel/gosaml2"
+	"github.com/sbishel/gosaml2/types"
 )
 
 func main() {

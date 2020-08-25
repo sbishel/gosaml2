@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	saml2 "github.com/mattermost/gosaml2"
+	saml2 "github.com/sbishel/gosaml2"
 )
 
 var oneLoginScenarioErrors = map[int]string{

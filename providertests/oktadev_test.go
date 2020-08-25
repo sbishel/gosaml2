@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/jonboulle/clockwork"
-	saml2 "github.com/mattermost/gosaml2"
 	dsig "github.com/russellhaering/goxmldsig"
+	saml2 "github.com/sbishel/gosaml2"
 )
 
 var oktaScenarioErrors = map[int]string{

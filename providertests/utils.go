@@ -13,9 +13,9 @@ import (
 	"time"
 
 	"github.com/jonboulle/clockwork"
-	saml2 "github.com/mattermost/gosaml2"
-	"github.com/mattermost/gosaml2/types"
+	"github.com/mattermost/sbishel/types"
 	dsig "github.com/russellhaering/goxmldsig"
+	saml2 "github.com/sbishel/gosaml2"
 	"github.com/stretchr/testify/require"
 )
 
